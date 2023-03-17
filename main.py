@@ -14,33 +14,121 @@ def check_campos():
 def converter():
     if check_campos() == True:
         if input_medidas.get() == "mg":
-            valor = input_valores.get()
+            valor = int(input_valores.get())
             resultado_1 = round(valor / 1000, 2)           
             resultado_2 = round(valor / 1000000, 2)
                             
-            result_1["text"] = f"O valor em Grama é: {resultado_1}g"
-            result_2["text"] = f"O valor em Quilograma é: {resultado_2}kg"
+            result_1["text"] = f"{resultado_1}g"
+            result_2["text"] = f"{resultado_2}kg"
             
         elif input_medidas.get() == "g":
             valor = input_valores.get()
             resultado_1 = round(valor * 1000, 2)           
             resultado_2 = round(valor / 1000, 2)
                             
-            result_1["text"] = f"O valor em MiliGrama é: {resultado_1}mg"
-            result_2["text"] = f"O valor em Quilograma é: {resultado_2}kg"
+            result_1["text"] = f"{resultado_1}mg"
+            result_2["text"] = f"{resultado_2}kg"
             
         elif input_medidas.get() == "kg":
             valor = input_valores.get()
             resultado_1 = round(valor * 1000000, 2)           
             resultado_2 = round(valor * 1000, 2)
                             
-            result_1["text"] = f"O valor em MiliGrama é: {resultado_1}mg"
-            result_2["text"] = f"O valor em Grama é: {resultado_2}g"
-                
+            result_1["text"] = f"{resultado_1}mg"
+            result_2["text"] = f"{resultado_2}g"
+        elif input_medidas.get() == "g":
+            valor = input_valores.get()
+            resultado_1 = round(valor * 1000, 2)           
+            resultado_2 = round(valor / 1000, 2)
+                            
+            result_1["text"] = f"{resultado_1}mg"
+            result_2["text"] = f"{resultado_2}kg"
+            
+        elif input_medidas.get() == "kg":
+            valor = input_valores.get()
+            resultado_1 = round(valor * 1000000, 2)           
+            resultado_2 = round(valor * 1000, 2)
+                            
+            result_1["text"] = f"{resultado_1}mg"
+            result_2["text"] = f"{resultado_2}g"
+            
+        elif input_medidas.get() == "cm":
+            valor = input_valores.get()
+            resultado_1 = round(valor / 100, 2)           
+            resultado_2 = round(valor / 100000, 2)
+                            
+            result_1["text"] = f"{resultado_1}m"
+            result_2["text"] = f"{resultado_2}km"
+            
+        elif input_medidas.get() == "m":
+            valor = input_valores.get()
+            resultado_1 = round(valor * 100, 2)           
+            resultado_2 = round(valor / 1000, 2)
+                            
+            result_1["text"] = f"{resultado_1}cm"
+            result_2["text"] = f"{resultado_2}km"
+            
+        elif input_medidas.get() == "km":
+            valor = input_valores.get()
+            resultado_1 = round(valor * 100000, 2)           
+            resultado_2 = round(valor * 1000, 2)
+                            
+            result_1["text"] = f"{resultado_1}cm"
+            result_2["text"] = f"{resultado_2}m"
+        
+        elif input_medidas.get() == "seg":
+            valor = input_valores.get()
+            resultado_1 = round(valor / 60, 2)           
+            resultado_2 = round(valor / 3600, 2)
+                            
+            result_1["text"] = f"{resultado_1}min"
+            result_2["text"] = f"{resultado_2}hora"
+            
+        elif input_medidas.get() == "min":
+            valor = input_valores.get()
+            resultado_1 = round(valor * 60, 2)           
+            resultado_2 = round(valor / 60, 2)
+                            
+            result_1["text"] = f"{resultado_1}seg"
+            result_2["text"] = f"{resultado_2}hora"
+            
+        elif input_medidas.get() == "h":
+            valor = input_valores.get()
+            resultado_1 = round(valor * 3600, 2)           
+            resultado_2 = round(valor * 60, 2)
+                            
+            result_1["text"] = f"{resultado_1}seg"
+            result_2["text"] = f"{resultado_2}min"       
         
         else:
             messagebox.showerror("Fudeo","Teu Pc vai explodir")
     
+
+# Função que filtra a entrada do usuário para permitir apenas números e ponto decimal
+def numeric_filter(value):
+    if value.isdigit() or value == "" or value == ".":
+        if input_campo.index(INSERT) == 0 and value == ".":
+            input_campo.insert(INSERT, "0.")
+            return False
+        elif "." in input_campo.get() and value == ".":
+            return False
+        elif value == "":
+            return True
+        elif len(input_campo.get().split(".")[0]) < 3 or input_campo.index(INSERT) > len(input_campo.get()) - 3:
+            return True
+    return False
+
+# Função que formata um valor float com duas casas decimais e vírgulas a cada três dígitos inteiros
+def format_value(value):
+    return "{:,.2f}".format(value)
+
+
+
+
+
+
+
+
 
 #cores
 bg1 = "#121212"
@@ -59,7 +147,7 @@ app.iconphoto(True, icon)
 
 #váriaveis globais
 input_medidas = StringVar(value="None")
-input_valores = IntVar(value="")
+input_valores = StringVar(value="")
 
 #FRAME DO MENU DE ESCOLHA
 frame_menu = Frame(app, bg=bg1, width=500, height=250)
@@ -237,6 +325,7 @@ result_2 = Label(resultado_label, text="", font=(txt, 10, "bold"),fg="black")
 result_2.place(x=10, y=30, )
 
 input_campo = Entry(width=30, bg=fontcor, font=(txt, 12, 'bold'), textvariable=input_valores)
+input_campo.configure(validate="key", validatecommand=(app.register(numeric_filter), "%S"))
 input_campo.place(x=15, y=255)
 
 button = Button(
