@@ -33,62 +33,64 @@ def check_fields():
 def convert():
     if check_fields() == True:
         value = int(input_values.get())
+        
         #Unidades de peso
         if input_units.get() == "mg":            
-            result_1 = value / 1000           
-            result_2 = value / 1000000            
-            showresult_1["text"] = format_value(result_1) + "g"
-            showresult_2["text"] = format_value(result_2) + "kg"  
-                      
+            result_1 = str(format_value(value / 1000)) + "g"            
+            result_2 = str(format_value(value / 1000000)) + "kg"             
+            list_result = [result_1, result_2]
+            showresult["text"] = "\n".join(list_result)
+            
         elif input_units.get() == "g":
-            result_1 = value * 1000           
-            result_2 = value / 1000            
-            showresult_1["text"] = format_value(result_1) + "mg"
-            showresult_2["text"] = format_value(result_2) + "kg" 
-                       
+            result_1 = str(format_value(value * 1000)) + "mg"           
+            result_2 = str(format_value(value / 1000 )) + "kg"
+            list_result = [result_1, result_2]         
+            showresult["text"] =  "\n".join(list_result)
+                                  
         elif input_units.get() == "kg":            
-            result_1 = value * 1000000           
-            result_2 = value * 1000            
-            showresult_1["text"] = format_value(result_1) + "mg"
-            showresult_2["text"] = format_value(result_2) + "kg"
+            result_1 = str(format_value(value * 1000000 )) + "mg"          
+            result_2 = str(format_value(value * 1000 )) + "g"   
+            list_result = [result_1, result_2]         
+            showresult["text"] =  "\n".join(list_result)            
             
         #Unidades de distância
         elif input_units.get() == "cm":
-            result_1 = value / 100           
-            result_2 = value / 100000            
-            showresult_1["text"] = format_value(result_1) + "m"
-            showresult_2["text"] = format_value(result_2) + "km"
+            result_1 = str(format_value(value / 100)) + "m"        
+            result_2 = str(format_value(value / 100000)) + "km"
+            list_result = [result_1, result_2]         
+            showresult["text"] =  "\n".join(list_result)         
             
         elif input_units.get() == "m":            
-            result_1 = value * 100          
-            result_2 = value / 1000            
-            showresult_1["text"] = format_value(result_1) + "cm"
-            showresult_2["text"] = format_value(result_2) + "kg"
+            result_1 = str(format_value(value * 100 ))  + "cm"       
+            result_2 = str(format_value(value / 1000 ))  + "km"        
+            list_result = [result_1, result_2]         
+            showresult["text"] =  "\n".join(list_result)     
         
         elif input_units.get() == "km":            
-            result_1 = value * 100000           
-            result_2 = value * 1000            
-            showresult_1["text"] = format_value(result_1) + "cm"
-            showresult_2["text"] = format_value(result_2) + "m"
+            result_1 = str(format_value(value * 100000))  + "cm"         
+            result_2 = str(format_value(value * 1000))  + "m"          
+            list_result = [result_1, result_2]         
+            showresult["text"] =  "\n".join(list_result)     
             
         #Unidades de tempo
         elif input_units.get() == "seg":
-            result_1 = value * 60           
-            result_2 = value / 3600            
-            showresult_1["text"] = format_value(result_1) + "min"
-            showresult_2["text"] = format_value(result_2) + (" hora" if result_2 < 2 else " horas")
+            result_1 = str(format_value(value * 60 ))  + "min"        
+            result_2 = str(format_value(value / 3600 ))  + (" hora" if (value / 3600) < 2 else " horas")      
+            list_result = [result_1, result_2]         
+            showresult["text"] =  "\n".join(list_result)     
             
         elif input_units.get() == "min":            
-            result_1 = value * 60           
-            result_2 = value / 60            
-            showresult_1["text"] = format_value(result_1) + "seg"
-            showresult_2["text"] = format_value(result_2) + (" hora" if result_2 < 2 else " horas")
+            result_1 = str(format_value(value * 60)) + "seg"          
+            result_2 = str(format_value(value / 60 ))  + (" hora" if (value / 60)  < 2 else " horas")      
+            list_result = [result_1, result_2]         
+            showresult["text"] =  "\n".join(list_result)     
         
         elif input_units.get() == "h":            
-            result_1 = value * 3600           
-            result_2 = value * 60            
-            showresult_1["text"] = format_value(result_1) + "seg"
-            showresult_2["text"] = format_value(result_2) + "min"
+            result_1 = str(format_value(value * 3600)) + "seg"          
+            result_2 = str(format_value(value * 60))   + "min"         
+            showresult["text"] = format_value(result_1) + "seg"
+            list_result = [result_1, result_2]         
+            showresult["text"] =  "\n".join(list_result)     
         
         else:
             messagebox.showerror("Fudeo","Teu Pc vai explodir")
@@ -285,10 +287,8 @@ input_field.place(x=15, y=255)
 resulted_label = Frame(app, width=304, height=95, bg="white")
 resulted_label.place(x=15, y=290)
 
-showresult_1 = Label(resulted_label, text="", font=(txt, 12, "bold"), bg="white", fg="black")
-showresult_1.place(x=10, y=10)
-showresult_2 = Label(resulted_label, text="", font=(txt, 12, "bold"), bg="white", fg="black")
-showresult_2.place(x=10, y=40)
+showresult = Label(resulted_label, text="", font=(txt, 12, "bold"), bg="white", fg="black", justify="left")
+showresult.place(x=15, y=10)
 
 button = Button(
     text="Converter",
